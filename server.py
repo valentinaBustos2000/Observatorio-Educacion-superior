@@ -18,11 +18,6 @@ NOTEBOOKS = {
         "url": "https://notebooklm.google.com/notebook/690b4a48-7ca7-40ab-884e-171d74b09953",
         "name": "Evolution of Excellence - Educacion Superior Global",
         "desc": "Tendencias globales, IA, skills-based economy, demografía (54 fuentes: OCDE, UNESCO, Deloitte)"
-    },
-    "ibague": {
-        "url": "https://notebooklm.google.com/notebook/9f82ef45-1d52-46e7-b02d-47abc13a5b3c",
-        "name": "Universidad de Ibague - Mirada Interna",
-        "desc": "PDI 2026-2029, facultades, programas, empleabilidad, investigación, Semestre Paz y Región"
     }
 }
 
@@ -53,7 +48,7 @@ def parse_notebooklm_answer(raw_output: str) -> str:
 
 
 def query_notebook(question: str, notebook_key: str) -> dict:
-    notebook = NOTEBOOKS.get(notebook_key, NOTEBOOKS["ibague"])
+    notebook = NOTEBOOKS.get(notebook_key, NOTEBOOKS["global"])
     try:
         result = subprocess.run(
             [sys.executable, "scripts/run.py", "ask_question.py",
@@ -115,7 +110,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 length = int(self.headers.get("Content-Length", 0))
                 body = json.loads(self.rfile.read(length))
                 question = body.get("question", "").strip()
-                notebook_key = body.get("notebook", "ibague")
+                notebook_key = body.get("notebook", "global")
 
                 if not question:
                     self.send_json({"error": "Pregunta vacia"}, 400)
