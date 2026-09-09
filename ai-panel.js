@@ -4,7 +4,6 @@
 (function () {
   const API = '/api/query';
   const NOTEBOOKS = {
-    ibague: 'Universidad de Ibague',
     global: 'Educacion Superior Global'
   };
 
@@ -46,18 +45,6 @@
       font-size:1rem; opacity:.7; line-height:1;
     }
     #ai-header button:hover { opacity:1; }
-    #ai-selector {
-      background:#f0f4ff; border-bottom:1px solid #e2e8f0;
-      padding:8px 12px; display:flex; gap:6px; flex-wrap:wrap;
-    }
-    .ai-nb-btn {
-      font-size:.7rem; font-weight:700; padding:3px 10px; border-radius:20px;
-      border:2px solid transparent; cursor:pointer; transition:all .15s;
-      background:#fff; color:#1a1f3c; border-color:#cbd5e1;
-    }
-    .ai-nb-btn.active {
-      background:#1a1f3c; color:#f59e0b; border-color:#1a1f3c;
-    }
     #ai-messages {
       flex:1; overflow-y:auto; padding:12px;
       max-height:320px; min-height:120px;
@@ -110,19 +97,14 @@
     <div id="ai-header">
       <div>
         <h6>Asistente de Investigacion</h6>
-        <small id="ai-active-label">Notebook: Universidad de Ibague</small>
+        <small id="ai-active-label">Notebook: Educacion Superior Global</small>
       </div>
       <button id="ai-close" title="Cerrar">&#10005;</button>
     </div>
-    <div id="ai-selector">
-      <button class="ai-nb-btn active" data-nb="ibague">U. Ibague</button>
-      <button class="ai-nb-btn" data-nb="global">Global / Tendencias</button>
-    </div>
     <div id="ai-messages">
       <div class="ai-msg bot">
-        Hola. Puedo consultar los notebooks de NotebookLM sobre:<br>
-        <strong>U. Ibague</strong>: PDI, programas, empleabilidad, infra...<br>
-        <strong>Global</strong>: IA, skills-economy, demografía, OCDE...<br><br>
+        Hola. Puedo consultar el notebook de NotebookLM sobre:<br>
+        <strong>Global</strong>: IA, skills-economy, demografía, OCDE, UNESCO, Deloitte...<br><br>
         &#10024; Pregunta lo que necesites.
         <div class="ai-src">Fuente: NotebookLM / Gemini</div>
       </div>
@@ -149,7 +131,7 @@
   document.body.appendChild(toggle);
 
   // ── Estado ────────────────────────────────────────────────────────────────
-  let activeNb = 'ibague';
+  let activeNb = 'global';
   let busy = false;
   const messagesEl = document.getElementById('ai-messages');
   const inputEl    = document.getElementById('ai-input');
@@ -238,16 +220,6 @@
   inputEl.addEventListener('input', () => {
     inputEl.style.height = 'auto';
     inputEl.style.height = Math.min(inputEl.scrollHeight, 90) + 'px';
-  });
-
-  document.querySelectorAll('.ai-nb-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeNb = btn.dataset.nb;
-      document.querySelectorAll('.ai-nb-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('ai-active-label').textContent =
-        'Notebook: ' + NOTEBOOKS[activeNb];
-    });
   });
 
   // ── Verificar conexion con el servidor ───────────────────────────────────
